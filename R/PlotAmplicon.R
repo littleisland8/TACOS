@@ -1,5 +1,6 @@
 #' @title plotAmplicon
 #' @description Plot ploidy distribution of specific amplicon
+#' @export
 
 plotAmplicon <- function(ploidy_table,amplicon, clusters, specific_clusters = FALSE, jitter = TRUE){
 

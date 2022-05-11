@@ -7,11 +7,11 @@
 MatrixGen(dataframe, clusters, amplicons)
 }
 \arguments{
-\item{dataframe}{a dataframe cointains each cells in the row and each amplicon in the columns}
+\item{dataframe}{a dataframe cointains each cells in the row and each amplicon in the columns output of mosaic software}
 
-\item{clusters}{name of the clusters to be analyzed}
+\item{clusters}{a vector containing the name of the clusters to be analyzed}
 
-\item{amplicons}{name of the amplicons to be analyzed}
+\item{amplicons}{a vector containing the name of the amplicons to be analyzed}
 }
 \value{
 matrix
@@ -21,4 +21,9 @@ generate a Matrix with the median ploidy for each amplicon suitable for sample-t
 }
 \examples{
 #do not run
+#load data
+df <- read.table("/path-to-ploidy-table/ploidy.csv", sep = ",", header = TRUE)
+clusters <- unique(df$label) #take all label 
+amplicons <- colnames(df)[-c(1,2)]
+TACOS::MatrixGen(df,clusters,amplicons)
 }

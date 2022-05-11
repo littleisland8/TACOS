@@ -6,6 +6,13 @@
 \usage{
 RelevantClones(table)
 }
+\value{
+a data.frame with phase information
+}
 \description{
 Find clones with an increased frequency in phase2
+}
+\examples{
+#do not run
+TACOS::RelevandClones(summaries=c(exp1,exp2), fraction=.001, out=outhtml)
 }

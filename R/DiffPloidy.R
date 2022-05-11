@@ -1,5 +1,21 @@
 #' @title DiffPloidy
-#' @description Differential ploidy analysis
+#' @description Differential ploidy analysis between two group (i.e. phase1-phase2). Will generate one of the wilcoxon pvalue, kruskal pvalue or t-test pvalue.
+#' @param ploidy_table a dataframe cointains each cells in the row and each amplicon in the columns output of mosaic software
+#' @param p1_cluster a vector containing the labels of phase1 cluster
+#' @param p2_cluster a vector containing the labels of phase2 cluster
+#' @param amplicons a vector containing the name of the amplicons to be analyzed
+#' @param methods string, the statistics analysis to be applied. The possible values for method are wilcoxon, kruskal or t-test
+#' @return a dataframe 
+#' @examples
+#' #do not run
+#' ploidy_table <- read.table("/path-to-ploidy-table/ploidy.csv", sep = ",", header = TRUE)
+#' freq <- read.table("/path-to-file-generated-by-freqclones.py/freqclones.txt", header = TRUE)
+#' freqcluster <- RelevantClones(freq)
+#' phase1 <- freqcluster$cluster[which(freqcluster$phase == "phase1")]
+#' phase2 <- freqcluster$cluster[which(freqcluster$phase == "phase2")]
+#' amplicons <- colnames(ploidy_table)[-c(1,2)]
+#' TACOS::DiffPloidy(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c("wilcoxon"))
+#' @export
 
 DiffPloidy <- function(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c("wilcoxon", "kruskal", "t-test")){
 
@@ -34,7 +50,7 @@ DiffPloidy <- function(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c(
 				for (a in amplicons){
 			  
 
-			  		message(paste0("Analyzing ", a, " in ", phase1,"-",phase2))
+					message(paste0("Analyzing ", a, " in ", phase1,"-",phase2))
 					amplp2 <- tsubp2[grepl(a, tsubp2$key, fixed = TRUE),]
 					amplp2$phase <- rep(1,nrow(amplp2))
 					amplp1 <- tsubp1[grepl(a, tsubp1$key, fixed = TRUE),]
@@ -72,16 +88,16 @@ DiffPloidy <- function(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c(
 
 		
 		for (i in 1:length(amplicons)){
-  			
 
-  			message(paste0("Analyzing distribution of ", amplicons[i]))
+
+			message(paste0("Analyzing distribution of ", amplicons[i]))
 			amplicon_ <- amplicons[i]
 			label <- ploidy_table$label
 			ploidy <- ploidy_table[,amplicon_]
 			df_ <- data.frame(label = label, ploidy = ploidy)
   
-  				
-  				for (j in 1:nrow(df_)){
+
+				for (j in 1:nrow(df_)){
 	
 					
 					if (any(p1_cluster == df_$label[j])){
@@ -91,16 +107,16 @@ DiffPloidy <- function(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c(
 	  
 					} else if (any(p2_cluster == df_$label[j])){
 	  
-	  					df_$group[j] <- df_$label[j]
-	  					df_$phase[j] <- "phase2"
+						df_$group[j] <- df_$label[j]
+						df_$phase[j] <- "phase2"
 
 					} else {
 	  
-	  					df_$group[j] <- 0
+						df_$group[j] <- 0
 	  
 	  
 					}
-  				}
+				}
   
 			
 			df_ <- subset(df_, (group !=0))
@@ -147,7 +163,7 @@ DiffPloidy <- function(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c(
 				for (a in amplicons){
 			  
 					
-			  		message(paste0("Analyzing ", a, " in ", phase1,"-",phase2))
+					message(paste0("Analyzing ", a, " in ", phase1,"-",phase2))
 					amplp2 <- tsubp2[grepl(a, tsubp2$key, fixed = TRUE),]
 					amplp2$phase <- rep(1,nrow(amplp2))
 					amplp1 <- tsubp1[grepl(a, tsubp1$key, fixed = TRUE),]

@@ -12,6 +12,30 @@ DiffPloidy(
   method = c("wilcoxon", "kruskal", "t-test")
 )
 }
+\arguments{
+\item{ploidy_table}{a dataframe cointains each cells in the row and each amplicon in the columns output of mosaic software}
+
+\item{p1_cluster}{a vector containing the labels of phase1 cluster}
+
+\item{p2_cluster}{a vector containing the labels of phase2 cluster}
+
+\item{amplicons}{a vector containing the name of the amplicons to be analyzed}
+
+\item{methods}{string, the statistics analysis to be applied. The possible values for method are wilcoxon, kruskal or t-test}
+}
+\value{
+a dataframe
+}
 \description{
-Differential ploidy analysis
+Differential ploidy analysis between two group (i.e. phase1-phase2). Will generate one of the wilcoxon pvalue, kruskal pvalue or t-test pvalue.
+}
+\examples{
+#do not run
+ploidy_table <- read.table("/path-to-ploidy-table/ploidy.csv", sep = ",", header = TRUE)
+freq <- read.table("/path-to-file-generated-by-freqclones.py/freqclones.txt", header = TRUE)
+freqcluster <- RelevantClones(freq)
+phase1 <- freqcluster$cluster[which(freqcluster$phase == "phase1")]
+phase2 <- freqcluster$cluster[which(freqcluster$phase == "phase2")]
+amplicons <- colnames(ploidy_table)[-c(1,2)]
+TACOS::DiffPloidy(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c("wilcoxon"))
 }
