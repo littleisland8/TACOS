@@ -68,9 +68,9 @@ DiffPloidy <- function(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c(
 				
 				}
 	  
-			resdf <- data.frame(amplicon=as.character(signampl), ploidy_cronica = as.numeric(ploidyp1), min_p1 = as.numeric(minp1), max_p1 = as.numeric(maxp1), 
+			resdf <- data.frame(amplicon=as.character(signampl), ploidy_p1 = as.numeric(ploidyp1), min_p1 = as.numeric(minp1), max_p1 = as.numeric(maxp1), 
 				
-						ploidy_acuta = as.numeric(ploidyp2), min_p2 = as.numeric(minp2), max_p2 = as.numeric(maxp2), wilcoxon_pvalue = as.numeric(pvalue_))
+						ploidy_p2 = as.numeric(ploidyp2), min_p2 = as.numeric(minp2), max_p2 = as.numeric(maxp2), wilcoxon_pvalue = as.numeric(pvalue_))
 			
 			resdf$padj <- p.adjust(resdf$wilcoxon_pvalue, n = length(resdf$wilcoxon_pvalue))
 			resdf$clones <- paste0(phase1,"-",phase2)
@@ -126,7 +126,7 @@ DiffPloidy <- function(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c(
 			#                     p.adjust.method = "BH")
 			ploidy_p1 <- median(df_$ploidy[which(df_$phase == "phase1")])
 			ploidy_p2 <- median(df_$ploidy[which(df_$phase == "phase2")])
-			resdf <- data.frame(amplicon=as.character(amplicon_), median_ploidy_cronica = as.numeric(ploidy_p1), median_ploidy_acuta = as.numeric(ploidy_p2), kruskal_test_pvalue = as.numeric(test_$p.value))
+			resdf <- data.frame(amplicon=as.character(amplicon_), median_ploidy_p1 = as.numeric(ploidy_p1), median_ploidy_p2 = as.numeric(ploidy_p2), kruskal_test_pvalue = as.numeric(test_$p.value))
 			reslist[[amplicon_]] <- resdf
 			
 		} 
@@ -179,9 +179,9 @@ DiffPloidy <- function(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c(
 				
 				}
 	  
-			resdf <- data.frame(amplicon=as.character(signampl), ploidy_cronica = as.numeric(ploidyp1), stdev_cronic = as.numeric(stdevp1), 
+			resdf <- data.frame(amplicon=as.character(signampl), ploidy_p1 = as.numeric(ploidyp1), stdev_cronic = as.numeric(stdevp1), 
 
-				ploidy_acuta = as.numeric(ploidyp2), stdev_acute = as.numeric(stdevp2), t.test_pvalue = as.numeric(pvalue_))
+				ploidy_p2 = as.numeric(ploidyp2), stdev_acute = as.numeric(stdevp2), t.test_pvalue = as.numeric(pvalue_))
 			
 			resdf$padj <- p.adjust(resdf$t.test_pvalue, n = length(resdf$t.test_pvalue))
 			resdf$clone <- paste0(phase1,"-",phase2)
