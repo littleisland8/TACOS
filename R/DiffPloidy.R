@@ -72,7 +72,7 @@ DiffPloidy <- function(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c(
 				
 						ploidy_p2 = as.numeric(ploidyp2), min_p2 = as.numeric(minp2), max_p2 = as.numeric(maxp2), wilcoxon_pvalue = as.numeric(pvalue_))
 			
-			resdf$padj <- p.adjust(resdf$wilcoxon_pvalue, n = length(resdf$wilcoxon_pvalue))
+			resdf$padj <- p.adjust(resdf$wilcoxon_pvalue, method="BH", n = length(resdf$wilcoxon_pvalue))
 			resdf$clones <- paste0(phase1,"-",phase2)
 			reslist[[key]] <- resdf
 
@@ -135,7 +135,7 @@ DiffPloidy <- function(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c(
 
 		finaldf <- do.call("rbind",reslist)
 
-		finaldf$padj <- p.adjust(finaldf$kruskal_test_pvalue, n = length(finaldf$kruskal_test_pvalue)) 
+		finaldf$padj <- p.adjust(finaldf$kruskal_test_pvalue, method="BH", n = length(finaldf$kruskal_test_pvalue)) 
 
 
 	} else if (method == "t-test"){
@@ -183,7 +183,7 @@ DiffPloidy <- function(ploidy_table,p1_cluster, p2_cluster, amplicons, method=c(
 
 				ploidy_p2 = as.numeric(ploidyp2), stdev_acute = as.numeric(stdevp2), t.test_pvalue = as.numeric(pvalue_))
 			
-			resdf$padj <- p.adjust(resdf$t.test_pvalue, n = length(resdf$t.test_pvalue))
+			resdf$padj <- p.adjust(resdf$t.test_pvalue, method="BH", n = length(resdf$t.test_pvalue))
 			resdf$clone <- paste0(phase1,"-",phase2)
 			reslist[[key]] <- resdf
 
